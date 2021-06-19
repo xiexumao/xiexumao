@@ -1,0 +1,82 @@
+#Mysql数据库存储过程：
+
+CREATE DEFINER=`root`@`%` PROCEDURE `insert_commodity`(in 商品编号 VARCHAR(15), in 商品名称 VARCHAR(40), in 商品单价 INT, in 供应商编号 CHAR(15), in 商品简介 VARCHAR(50), in 备注 VARCHAR(40))
+BEGIN
+INSERT INTO commodity VALUES(商品编号, 商品名称, 商品单价, 供应商编号, 商品简介, 备注);
+COMMIT;
+END
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `insert_details`(in 采购明细号 VARCHAR(15), in 采购清单号 VARCHAR(15), in 商品编号 VARCHAR(15), in 备注 VARCHAR(50))
+BEGIN
+INSERT INTO details VALUES(采购明细号, 采购清单号, 商品编号, 备注);
+COMMIT;
+END
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `insert_employee`(in 员工编号 VARCHAR(15), in 员工姓名 VARCHAR(20), in 员工密码 VARCHAR(20), in 员工级别 VARCHAR(10), in 员工电话 VARCHAR(12), in 员工工资 INT, in 备注 VARCHAR(50))
+BEGIN
+		insert into employee VALUES(员工编号, 员工姓名, 员工密码, 员工级别, 员工电话, 员工工资, 备注);
+		COMMIT;
+END
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `insert_purchase`(in 采购清单号 VARCHAR(15), in 员工编号 VARCHAR(15), in 采购数量 INT, 采购总价 INT, in 采购时间 VARCHAR(20), in 备注 VARCHAR(50))
+begin
+INSERT INTO purchase VALUES(采购清单号, 员工编号, 采购数量, 采购总价, 采购时间, 备注);
+COMMIT;
+END
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `insert_supplier`(in 供应商编号 char(15),in 供应商名称 VARCHAR(40),in 供应商简称 VARCHAR(20),in 地址 VARCHAR(40),in 公司电话 VARCHAR(12),in 邮箱 VARCHAR(20),in 联系人 VARCHAR(12),in 联系人电话 VARCHAR(12),in 备注 VARCHAR(50))
+begin
+insert into supplier VALUES(供应商编号,供应商名称,供应商简称,地址,公司电话,邮箱,联系人,联系人电话,备注);
+COMMIT;
+end
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `select_commodity`()
+BEGIN
+select * from commodity;
+END
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `select_employee`()
+BEGIN
+		select * from employee;
+END
+
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `select_purchase_details`()
+BEGIN
+select purchase.采购清单号, 采购明细号, 商品编号, 员工编号, purchase.采购数量, 采购总价, 采购时间, 备注
+	from details, purchase
+	where details.采购清单号 = purchase.采购清单号;
+END
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `select_supplier`()
+begin
+select * from supplier;
+end
+
+CREATE DEFINER=`root`@`%` PROCEDURE `delete_commodity`(in 商品编号 VARCHAR(15))
+begin 
+DELETE from commodity
+where commodity.商品编号 = 商品编号;
+end
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `delete_employee`(in 员工编号 VARCHAR(15))
+begin 
+DELETE from employee 
+where employee.员工编号 = 员工编号;
+end
+
+
+CREATE DEFINER=`root`@`%` PROCEDURE `delete_supplier`(in 供应商编号 VARCHAR(15))
+begin 
+DELETE from supplier
+where supplier.供应商编号 = 供应商编号;
+end
